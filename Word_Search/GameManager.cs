@@ -11,13 +11,11 @@ namespace Word_Search
     {
         /* Attributes */
         // Grid grid (need grid class)
-        List<String> playerGuesses; // List to store player's guesses
         Player currentPlayer; // Current player object
         string gameLevel; // Game difficulty level
-                          //List<Word> answerPositions; (Need word class)
+        //List<Word> answerPositions; (Need word class)
         GameState gameState; // Current state of the game
         public List<string> playerGuesses = new List<string>();
-        Player currentPlayer;
         //List<Word> answerPositions; (Need word class)
 
         /* Methods */
@@ -151,7 +149,6 @@ namespace Word_Search
         }
 
         // Method to display the score
-        public void displayScore()
         public void displayScreen()
         {
         }
