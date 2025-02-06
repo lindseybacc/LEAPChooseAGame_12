@@ -6,7 +6,9 @@ namespace Word_Search
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            //Console.WriteLine("Hello World!");
+            GameManager game = new GameManager();
+            game.welcomeScreen();
         }
     }
 }
