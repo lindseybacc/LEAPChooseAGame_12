@@ -34,10 +34,10 @@ namespace Word_Search
             string input;
             string firstCoordinate;
             string secondCoordinate;
-            bool isValidGuess = false;
+            bool isValidGuess = false; //run loop until entry is valid
 
             Console.WriteLine("Enter the coordinates for the first letter and last letter of your word guess, with a comma in between. " +
-                "\nFormat should Letter to represent the column, and a number to represent the row. Example: A1, F1. ");
+                "\nFormat should have a letter to represent the column, and a number to represent the row. Example: A1, F1. ");
 
             do
             {
@@ -56,7 +56,7 @@ namespace Word_Search
                     if (IsValidCoordinate(firstCoordinate) && IsValidCoordinate(secondCoordinate))
                     {
                         isValidGuess = true;
-                        playerGuesses.Add(firstCoordinate);
+                        playerGuesses.Add(firstCoordinate); //storing the coordinate string in list for validation
                         playerGuesses.Add(secondCoordinate);
                     }
                     else
