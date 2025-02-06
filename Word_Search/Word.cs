@@ -27,9 +27,15 @@ namespace Word_Search
 
         public bool isFound(string startPoint, string endPoint)
         {
-            // Check in the list if word location matches 
-            return true;
-            // will implement the rest of the logic later
+            if (startPoint == this.startPoint && endPoint == this.endPoint)
+            {
+                return true;
+            }
+            else
+            {
+                return false;   
+            }
+      
         }
 
 
