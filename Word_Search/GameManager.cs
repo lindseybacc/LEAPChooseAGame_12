@@ -10,7 +10,7 @@ namespace Word_Search
     {
         /* Attributes */
         // Grid grid (need grid class)
-        List<String> playerGuesses;
+        public List<string> playerGuesses = new List<string>();
         Player currentPlayer;
         //List<Word> answerPositions; (Need word class)
 
@@ -24,12 +24,62 @@ namespace Word_Search
         {
         }
 
+        
         public void displayGrid()
         {
         }
 
         public void getUserInput()
         {
+            string input;
+            string firstCoordinate;
+            string secondCoordinate;
+            bool isValidGuess = false;
+
+            Console.WriteLine("Enter the coordinates for the first letter and last letter of your word guess, with a comma in between. " +
+                "\nFormat should Letter to represent the column, and a number to represent the row. Example: A1, F1. ");
+
+            do
+            {
+                input = Console.ReadLine();
+
+                // To split the entry by comma and store in array
+                string[] parts = input.Split(',');
+
+                // Check there are two parts with comma
+                if (parts.Length == 2)
+                {
+                    firstCoordinate = parts[0].Trim();
+                    secondCoordinate = parts[1].Trim();
+
+                    // Validate each part, created a separate method to valid the coordinate
+                    if (IsValidCoordinate(firstCoordinate) && IsValidCoordinate(secondCoordinate))
+                    {
+                        isValidGuess = true;
+                        playerGuesses.Add(firstCoordinate);
+                        playerGuesses.Add(secondCoordinate);
+                    }
+                    else
+                    {
+                        Console.WriteLine("\nInvalid input. Each coordinate should be in the format LetterNumber (e.g., A1).");
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("\nInvalid input. Please enter two coordinates separated by a comma (e.g., A1, F1).");
+                }
+            } while (!isValidGuess);
+        }
+        
+        /* Method: IsValidCoordinate to verify the coordiante format in getUserInput() Method */
+        private bool IsValidCoordinate(string coordinate)
+        {
+            // Check if the coordinate is exactly two characters long
+            if (coordinate.Length == 2 && char.IsLetter(coordinate[0]) && char.IsDigit(coordinate[1]))
+            {
+                return true;
+            }
+            return false;
         }
 
         public void checkWord()
@@ -44,7 +94,7 @@ namespace Word_Search
         {
         }
 
-        public void displayScore()
+        public void displayScreen()
         {
         }   
 
