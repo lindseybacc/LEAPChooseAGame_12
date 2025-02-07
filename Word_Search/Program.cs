@@ -6,6 +6,7 @@ namespace Word_Search
     {
         static void Main(string[] args)
         {
+            /*
             char[,] grid = {{'L', 'N', 'A', 'U', 'Y', 'K', 'V', 'S', 'D', 'I' },
                             {'L', 'X', 'W', 'L', 'V', 'Q', 'P', 'O', 'O', 'V' },
                              {'N', 'K', 'X', 'E', 'S', 'G', 'G', 'T', 'G', 'Q' },
@@ -46,7 +47,9 @@ namespace Word_Search
             position = my_grid.calculatePositions(my_word5);
             my_grid.circle(position[0], position[position.Length-1]);
             my_grid.displayGrid();
-            Console.WriteLine("Hello World!");
+            Console.WriteLine("Hello World!");*/
+            GameManager game = new GameManager();
+            game.welcomeScreen();
         }
     }
 }
