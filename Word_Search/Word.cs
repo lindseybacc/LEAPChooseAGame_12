@@ -19,9 +19,8 @@ namespace Word_Search
             startPoint = start;
             endPoint = end;
         }
-
-        public bool word { get; internal set; }
-
+        public string getStartPoint() { return startPoint; }
+        public string getEndPoint() { return endPoint; }
         public int getLength()
         {
             return text.Length;
@@ -38,11 +37,8 @@ namespace Word_Search
             }
             else
             {
-                return false;   
+                return false;
             }
-      
         }
-
-
     }
 }
