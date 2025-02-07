@@ -13,7 +13,6 @@ namespace Word_Search
         // Grid grid (need grid class)
         Player currentPlayer; // Current player object
         string gameLevel; // Game difficulty level
-        //List<Word> answerPositions; (Need word class)
         GameState gameState; // Current state of the game
         public List<string> playerGuesses = new List<string>();
         //List<Word> answerPositions; (Need word class)
@@ -81,7 +80,7 @@ namespace Word_Search
         // Method to check if the word is correct
         
         /* Method: IsValidCoordinate to verify the coordiante format in getUserInput() Method */
-        private bool IsValidCoordinate(string coordinate)
+        public bool IsValidCoordinate(string coordinate)
         {
             // Check if the coordinate is exactly two characters long
             if (coordinate.Length == 2 && char.IsLetter(coordinate[0]) && char.IsDigit(coordinate[1]))
@@ -151,6 +150,29 @@ namespace Word_Search
         // Method to display the score
         public void displayScreen()
         {
+        }
+
+        public void gameOverScreen()
+        {
+            gameState = GameState.GameOver;
+
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine("  ____                         ___                 ");
+            Console.WriteLine(" / ___| __ _ _ __ ___   ___   / _ \\__   _____ _ __ ");
+            Console.WriteLine("| |  _ / _` | '_ ` _ \\ / _ \\ | | | \\ \\ / / _ \\ '__|");
+            Console.WriteLine("| |_| | (_| | | | | | |  __/ | |_| |\\ V /  __/ |   ");
+            Console.WriteLine(" \\____|\\__,_|_| |_| |_|\\___|  \\___/  \\_/ \\___|_|   ");
+            Console.WriteLine();
+            Console.WriteLine();
+            // reset color back to standard
+            Console.ResetColor();
+
+            Console.WriteLine("Thanks for playing! \nFINAL BOARD:");
+            //displayGrid();
+
+            // Set the text color to Cyan
+            
+
         }
     }
 }
