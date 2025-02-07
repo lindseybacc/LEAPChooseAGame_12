@@ -20,11 +20,16 @@ namespace Word_Search
             endPoint = end;
         }
 
+        public bool word { get; internal set; }
+
         public int getLength()
         {
             return text.Length;
         }
-
+        public string getWord()
+        {
+            return text;
+        }   
         public bool isFound(string startPoint, string endPoint)
         {
             if (startPoint == this.startPoint && endPoint == this.endPoint)
