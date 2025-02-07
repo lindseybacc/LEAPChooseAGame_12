@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -10,17 +11,28 @@ namespace Word_Search
     public class GameManager
     {
         /* Attributes */
-        // Grid grid (need grid class)
         Player currentPlayer; // Current player object
         string gameLevel; // Game difficulty level
+
+        Word w1 = new Word("Cat", "f5", "f7");
+        Word w2 = new Word("Dog", "i1", "g3");
+        Word w3 = new Word("Mouse", "a9", "e9");
+        Word w4 = new Word("Goat", "j7", "j10");
+        Word w5 = new Word("Horse", "c4", "g4");
+        List<string> words = new List<string> { "Cat", "Dog", "Mouse", "Goat", "Horse" };
+        List<Word> wordList;
+
         GameState gameState; // Current state of the game
+
+
         public List<string> playerGuesses = new List<string>();
-        //List<Word> answerPositions; (Need word class)
 
         /* Methods */
         // Method to start the game
         public void startGame()
         {
+            
+            displayScreen();
         }
 
         // Method to initialize the grid
@@ -29,7 +41,6 @@ namespace Word_Search
         }
 
         // Method to display the grid
-        
         public void displayGrid()
         {
         }
@@ -118,8 +129,6 @@ namespace Word_Search
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine("Press the s key to begin:");
             var key = Console.ReadLine();
-            // Reset the text color to the default color
-            //Console.ResetColor();
 
             if (key.ToLower() == "s".ToLower())
             {
@@ -132,16 +141,19 @@ namespace Word_Search
                 if (difficulty.ToLower() == "e")
                 {
                     gameLevel = "E";
+                    Console.Clear();
                     startGame();
                 }
                 else if (difficulty.ToLower() == "m")
                 {
                     gameLevel = "M";
+                    Console.Clear();
                     startGame();
                 }
                 else if (difficulty.ToLower() == "h")
                 {
                     gameLevel = "H";
+                    Console.Clear();
                     startGame();
                 }
             }
@@ -149,7 +161,52 @@ namespace Word_Search
 
         // Method to display the score
         public void displayScreen()
+        
         {
+            wordList = new List<Word> { w1, w2, w3, w4, w5 };
+            gameState = GameState.GameStart;
+            // display the grid here
+            Console.WriteLine();
+
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.WriteLine("Welcome to the Word Search Game!");
+            Console.WriteLine();
+            Console.WriteLine("Player: " + currentPlayer.playerName);
+            Console.WriteLine("Words left to find: " + currentPlayer.getWordsLeft());
+            Console.WriteLine();
+            Console.WriteLine("Here are the words: ");
+            Console.WriteLine();
+            for (int i = 0; i < wordList.Count; i++)
+            {
+                
+                Console.WriteLine(wordList[i].getWord());
+            }
+            getUserInput();
+
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.WriteLine("type Q to quit:");
+            var data = Console.ReadLine();
+
+            if (data.ToLower() == "q")
+            {
+                // call the gameoverscreen method here 
+                gameState = GameState.GameOver;
+            }
+        }
+
+        /* Method: IsValidCoordinate to verify the coordinate format in getUserInput() Method */
+        private bool IsValidCoordinate(string coordinate)
+        {
+            // Check if the coordinate is exactly two characters long
+            if (coordinate.Length == 2 && char.IsLetter(coordinate[0]) && char.IsDigit(coordinate[1]))
+            {
+                return true;
+            }
+            return false;
         }
 
         public void gameOverScreen()
