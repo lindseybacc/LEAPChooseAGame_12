@@ -13,12 +13,23 @@ namespace Word_Search
         /* Attributes */
         Player currentPlayer; // Current player object
         string gameLevel; // Game difficulty level
-
+        Grid grid;
         Word w1 = new Word("Cat", "f5", "f7");
-        Word w2 = new Word("Dog", "i1", "g3");
-        Word w3 = new Word("Mouse", "a9", "e9");
+        Word w2 = new Word("Dog", "i1", "i3");
+        Word w3 = new Word("Mouse", "b9", "f9");
         Word w4 = new Word("Goat", "j7", "j10");
         Word w5 = new Word("Horse", "c4", "g4");
+        char[,] grid_letters = {{'L', 'N', 'A', 'U', 'Y', 'K', 'V', 'S', 'D', 'I' },
+                            {'L', 'X', 'W', 'L', 'V', 'Q', 'P', 'O', 'O', 'V' },
+                             {'N', 'K', 'X', 'E', 'S', 'G', 'G', 'T', 'G', 'Q' },
+                            {'F', 'I', 'H', 'O', 'R', 'S', 'E', 'R', 'F', 'S' },
+                            {'B', 'K', 'Q', 'H', 'C', 'C', 'Z', 'K', 'T', 'V' },
+                            {'T', 'J', 'T', 'J', 'X', 'A', 'N', 'G', 'V', 'S' },
+                            {'R', 'Z', 'A', 'A', 'A', 'T', 'Q', 'O', 'D', 'G' },
+                            {'H', 'Q', 'Q', 'M', 'R', 'Z', 'Y', 'Y', 'U', 'O' },
+                            {'x', 'M', 'O', 'U', 'S', 'E', 'C', 'E', 'Y', 'A' },
+                            {'A', 'R', 'H', 'D', 'D', 'Y', 'F', 'Y', 'A', 'T' }};
+
         List<string> words = new List<string> { "Cat", "Dog", "Mouse", "Goat", "Horse" };
         List<Word> wordList;
 
@@ -55,11 +66,11 @@ namespace Word_Search
 
             Console.WriteLine("Enter the coordinates for the first letter and last letter of your word guess, with a comma in between. " +
                 "\nFormat should have a letter to represent the column, and a number to represent the row. Example: A1, F1. ");
-
+            Console.WriteLine("Enter Q to quit");
             do
             {
                 input = Console.ReadLine();
-
+              
                 // To split the entry by comma and store in array
                 string[] parts = input.Split(',');
 
@@ -81,10 +92,8 @@ namespace Word_Search
                         Console.WriteLine("\nInvalid input. Each coordinate should be in the format LetterNumber (e.g., A1).");
                     }
                 }
-                else
-                {
-                    Console.WriteLine("\nInvalid input. Please enter two coordinates separated by a comma (e.g., A1, F1).");
-                }
+               
+
             } while (!isValidGuess);
         }
 
@@ -94,7 +103,7 @@ namespace Word_Search
         public bool IsValidCoordinate(string coordinate)
         {
             // Check if the coordinate is exactly two characters long
-            if (coordinate.Length == 2 && char.IsLetter(coordinate[0]) && char.IsDigit(coordinate[1]))
+            if (coordinate.Length <= 3 && char.IsLetter(coordinate[0]) && char.IsDigit(coordinate[1]))
             {
                 return true;
             }
@@ -103,6 +112,7 @@ namespace Word_Search
 
         public void checkWord()
         {
+            
         }
 
         // Method to update the score
@@ -163,11 +173,14 @@ namespace Word_Search
         public void displayScreen()
         
         {
+            
             wordList = new List<Word> { w1, w2, w3, w4, w5 };
             gameState = GameState.GameStart;
-            // display the grid here
+            grid = new Grid(grid_letters);
+            grid.initlizeGrid();
+            grid.displayGrid();
             Console.WriteLine();
-
+            Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine();
             Console.WriteLine();
             Console.WriteLine("Welcome to the Word Search Game!");
@@ -175,45 +188,72 @@ namespace Word_Search
             Console.WriteLine("Player: " + currentPlayer.playerName);
             Console.WriteLine("Words left to find: " + currentPlayer.getWordsLeft());
             Console.WriteLine();
-            Console.WriteLine("Here are the words: ");
-            Console.WriteLine();
-            for (int i = 0; i < wordList.Count; i++)
+            Console.Write("Here are the words: ");
+            for (int j = 0; j < words.Count; j++)
             {
-                
-                Console.WriteLine(wordList[i].getWord());
+                Console.Write(words[j] + " ");
             }
-            getUserInput();
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.WriteLine();
 
-            Console.WriteLine();
-            Console.WriteLine();
-            Console.WriteLine();
-            Console.WriteLine();
-            Console.WriteLine("type Q to quit:");
+            while (currentPlayer.getWordsLeft() > 0 || gameState != GameState.GameOver)
+            {
+
+                getUserInput();
+                
+                // they are stores in player guesses list
+                // check if the word is in the list of words
+
+                for (int i = 0; i < wordList.Count; i++)
+                {
+                    if (playerGuesses[0] == wordList[i].getStartPoint() && playerGuesses[1] == wordList[i].getEndPoint())
+                    {
+                        Console.WriteLine("You found a word!");
+                        words.Remove(wordList[i].getWord());
+                        currentPlayer.decrementWordsLeft();
+                        // call circle method
+                        // know word is wordList[i]
+
+                        (int, int)[] position = grid.calculatePositions(wordList[i]);
+                        grid.circle(position[0], position[position.Length - 1]);
+
+                        grid.displayGrid();
+                        Console.ForegroundColor = ConsoleColor.White;
+                        Console.WriteLine("Words left to find: " + currentPlayer.getWordsLeft());
+                        Console.WriteLine();
+                        Console.Write("Here are the words: ");
+                        for(int j = 0; j < words.Count; j++)
+                        {
+                            Console.Write(words[j] + " ");
+                        }   
+                        Console.WriteLine();
+                        Console.WriteLine();
+                        Console.WriteLine();
+
+                    }
+
+                }
+
+                playerGuesses.Clear();
+            }
+          
             var data = Console.ReadLine();
 
-            if (data.ToLower() == "q")
-            {
-                // call the gameoverscreen method here 
-                gameState = GameState.GameOver;
-            }
-        }
-
-        /* Method: IsValidCoordinate to verify the coordinate format in getUserInput() Method */
-        private bool IsValidCoordinate(string coordinate)
-        {
-            // Check if the coordinate is exactly two characters long
-            if (coordinate.Length == 2 && char.IsLetter(coordinate[0]) && char.IsDigit(coordinate[1]))
-            {
-                return true;
-            }
-            return false;
+          
         }
 
         public void gameOverScreen()
         {
             gameState = GameState.GameOver;
+            Console.Clear();
 
             Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.WriteLine();
+
             Console.WriteLine("  ____                         ___                 ");
             Console.WriteLine(" / ___| __ _ _ __ ___   ___   / _ \\__   _____ _ __ ");
             Console.WriteLine("| |  _ / _` | '_ ` _ \\ / _ \\ | | | \\ \\ / / _ \\ '__|");
@@ -225,11 +265,7 @@ namespace Word_Search
             Console.ResetColor();
 
             Console.WriteLine("Thanks for playing! \nFINAL BOARD:");
-            //displayGrid();
-
-            // Set the text color to Cyan
-            
-
+          
         }
     }
 }

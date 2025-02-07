@@ -46,14 +46,16 @@ namespace Word_Search
             }
         }
 
-        public void getToMiddle()
+        public void getToMiddle(bool num_line)
         {
             for (int i = 0; i < middle - 2; i++)
             {
-                if (pos < lines.Length)
+               
+                if(pos < lines.Length)
                 {
                     lines[pos] += " ";
                 }
+               
             }
         }
 
@@ -61,7 +63,7 @@ namespace Word_Search
         {
             if (pos < lines.Length)
             {
-                getToMiddle();
+                getToMiddle(false);
                 lines[pos] += "|";
                 for (int k = 0; k < 70; k++)
                 {
@@ -92,33 +94,42 @@ namespace Word_Search
         }
         public void initlizeGrid()
         {
-            getToMiddle();
+            int num = 1;
+            getToMiddle(false);
             displayHorizonalLine();
 
             displayVerticalLine();
-
+           
             for (int i = 0; i < 10; i++)
             {
-                getToMiddle();
+                getToMiddle(true);
                 lines[pos] += "|";
                 addWhiteSpace(5);
                 displayLetters(i);
-                addWhiteSpace(2);
-                lines[pos] += "|";
+                lines[pos] += "  | ";
+                //Console.ForegroundColor = ConsoleColor.Yellow;
+                lines[pos] += num;
+               // Console.ForegroundColor = ConsoleColor.DarkGray;
+                num += 1;
+                //lines[pos] += "|";
                 pos++;
+                
+
                 displayVerticalLine();
                 if (i < 9)
                 {
                     displayVerticalLine();
                 }
             }
-            getToMiddle();
+            getToMiddle(false);
             displayHorizonalLine();
             displayVerticalLine();
 
         }
         public void displayGrid()
-        { 
+        {
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("                                A      B      C      D      E      F      G      H      I      J");
             for (int i = 0; i < lines.Length; i++)
             {
                 for (int j = 0; j < lines[i].Length; j++)
@@ -132,9 +143,14 @@ namespace Word_Search
                             Console.Write(lines[i][j]);
                         }
                     }
+                    else if(lines[i][j] == '1' || lines[i][j] == '2' || lines[i][j] == '3' || lines[i][j] == '4' || lines[i][j] == '5' || lines[i][j] == '6' || lines[i][j] == '7' || lines[i][j] == '8' || lines[i][j] == '9' || lines[i][j] == '0')
+                    {
+                        Console.ForegroundColor = ConsoleColor.Yellow;
+                        Console.Write(lines[i][j]);
+                    }
                     else
                     {
-                        Console.ForegroundColor = ConsoleColor.DarkGray;
+                        Console.ForegroundColor = ConsoleColor.White;
                         Console.Write(lines[i][j]);
                     }
                 }
@@ -182,7 +198,7 @@ namespace Word_Search
             else
             {
                 int num = 0;
-                num = (start.Item2 * 7) + 3;
+                num = (start.Item2 * 7) + 5;
                 c = num;
             }
             return (r, c);
@@ -290,8 +306,8 @@ public (int,int)[] calculatePositions(Word answer)
             string startPoint = answer.getStartPoint();
             string endPoint = answer.getEndPoint();
 
-            int startR = convert[startPoint[0].ToString()];
-            int endR = convert[endPoint[0].ToString()];
+            int startR = convert[startPoint[0].ToString().ToUpper()];
+            int endR = convert[endPoint[0].ToString().ToUpper()];
             String sc = startPoint[1].ToString();
             String ec = endPoint[1].ToString();
             if (startPoint.Length == 3)
